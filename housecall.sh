@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -ue
 
+PATIENT=$1
+
 housecall() {
   if out_of_office; then
     page_the_doctor
@@ -28,6 +30,8 @@ administer() {
     --cap-add=sys_admin,mknod \
     --security-opt label=disable \
     --security-opt unmask=/proc/all \
+    -v /run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:Z \
+    -v $PATIENT:/Containerfile \
     ${TROUBLESHOOT:+--entrypoint /bin/bash} \
     build-doctor:latest
 }

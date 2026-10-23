@@ -31,7 +31,7 @@ func run() error {
 		return fmt.Errorf("connect to podman service at %q: %w", socket, err)
 	}
 
-	containerfile := filepath.Join("/home/mpistacchio/test", "simpleContainerfile")
+	containerfile := filepath.Join("/", "Containerfile")
 	imageName := "localhost/build-doctor-demo:latest"
 
 	response, err := images.Build(conn, []string{containerfile}, types.BuildOptions{

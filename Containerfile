@@ -14,6 +14,9 @@ FROM ${ARTIFACT_REPOSITORY_DOMAIN}/quay.io/podman/stable:v5.8.9
 
 COPY --from=builder /app/build-doctor /usr/local/bin/build-doctor
 
-ENV STORAGE_DRIVER=vfs
+RUN echo "podman:100000:65536" > /etc/subuid && \
+    echo "podman:100000:65536" > /etc/subgid
+
+ENV STORAGE_DRIVER=overlay
 
 ENTRYPOINT ["/usr/local/bin/build-doctor"]
