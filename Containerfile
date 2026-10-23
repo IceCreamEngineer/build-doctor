@@ -19,4 +19,6 @@ RUN echo "podman:100000:65536" > /etc/subuid && \
 
 ENV STORAGE_DRIVER=overlay
 
-ENTRYPOINT ["/usr/local/bin/build-doctor"]
+WORKDIR /workspace
+
+ENTRYPOINT ["/bin/sh", "-c", "/usr/local/bin/build-doctor < /dev/null"]

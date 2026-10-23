@@ -2,6 +2,7 @@
 set -ue
 
 PATIENT=$1
+HOUSE=$(dirname "$PATIENT")
 
 housecall() {
   if out_of_office; then
@@ -25,14 +26,14 @@ administer_the_patient() {
 }
 
 administer() {
-  podman run -it --rm --runtime=crun --cgroups=disabled \
+  podman run --rm --runtime=crun --cgroups=disabled \
     --device /dev/fuse \
     --cap-add=sys_admin,mknod \
     --security-opt label=disable \
     --security-opt unmask=/proc/all \
     -v /run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:Z \
-    -v $PATIENT:/Containerfile \
-    ${TROUBLESHOOT:+--entrypoint /bin/bash} \
+    -v $HOUSE:/workspace:Z \
+    ${TROUBLESHOOT:+-it --entrypoint /bin/bash} \
     build-doctor:latest
 }
 
