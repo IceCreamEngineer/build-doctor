@@ -10,7 +10,7 @@ RUN go mod download
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -tags "containers_image_openpgp exclude_graphdriver_btrfs" -o /app/build-doctor .
 
-FROM ${ARTIFACT_REPOSITORY_DOMAIN}/quay.io/podman/stable:v5.8.7
+FROM ${ARTIFACT_REPOSITORY_DOMAIN}/quay.io/podman/stable:v5.8.9
 
 COPY --from=builder /app/build-doctor /usr/local/bin/build-doctor
 
