@@ -42,8 +42,6 @@ func connectToLocalContainerRuntime(ctx context.Context) (context.Context, error
 		return ctx, serviceStartError
 	}
 
-	waitForGenerated(containerRuntimeSocketPath)
-
 	socketConnection, socketConnectionError := bindings.NewConnection(ctx, containerRuntimeSocket)
 	if socketConnectionError != nil {
 		return nil, fmt.Errorf("failed to connect to local container runtime service at %q: %w",
@@ -58,15 +56,6 @@ func startContainerRuntimeService(ctx context.Context, containerRuntimeSocket st
 		return fmt.Errorf("failed to start embedded container runtime service: %w", err)
 	}
 	return nil
-}
-
-func waitForGenerated(containerRuntimeSocketPath string) {
-	for i := 0; i < 10; i++ {
-		if _, err := os.Stat(containerRuntimeSocketPath); err == nil {
-			break
-		}
-		time.Sleep(200 * time.Millisecond)
-	}
 }
 
 func buildImage(containerRuntime context.Context, runtimeError error) error {
