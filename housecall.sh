@@ -31,7 +31,6 @@ administer() {
     --cap-add=sys_admin,mknod \
     --security-opt label=disable \
     --security-opt unmask=/proc/all \
-    -v /run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:Z \
     -v $HOUSE:/workspace:Z \
     ${TROUBLESHOOT:+-it --entrypoint /bin/bash} \
     build-doctor:latest
