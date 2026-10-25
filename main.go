@@ -30,7 +30,7 @@ func run() error {
 	if runtimeError != nil {
 		return runtimeError
 	}
-	return buildImage(containerRuntime, runtimeError)
+	return buildImage(containerRuntime)
 }
 
 func connectToLocalContainerRuntime(ctx context.Context) (context.Context, error) {
@@ -58,14 +58,14 @@ func startContainerRuntimeService(ctx context.Context, containerRuntimeSocket st
 	return nil
 }
 
-func buildImage(containerRuntime context.Context, runtimeError error) error {
+func buildImage(containerRuntime context.Context) error {
 	containerfile := filepath.Join("/workspace", "Containerfile")
 	imageName := "localhost/build-doctor-demo:latest"
-	buildImageResponse, buildImageError := build(containerfile, imageName, containerRuntime)
-	if buildImageError != nil {
-		return fmt.Errorf("build image %q: %w", imageName, runtimeError)
+	buildReport, buildError := build(containerfile, imageName, containerRuntime)
+	if buildError != nil {
+		return fmt.Errorf("build image %q: %w", imageName, buildError)
 	}
-	presentBuiltImage(imageName, buildImageResponse)
+	presentBuiltImage(imageName, buildReport)
 	return nil
 }
 
@@ -78,9 +78,9 @@ func build(containerfile string, imageName string, containerRuntime context.Cont
 	})
 }
 
-func presentBuiltImage(imageName string, buildImageResponse *types.BuildReport) {
+func presentBuiltImage(imageName string, buildReport *types.BuildReport) {
 	fmt.Printf("built image: %s\n", imageName)
-	if buildImageResponse != nil {
-		fmt.Printf("build buildImageResponse: %+v\n", buildImageResponse)
+	if buildReport != nil {
+		fmt.Printf("buildReport: %+v\n", buildReport)
 	}
 }
