@@ -64,3 +64,10 @@ _  /_/ / /_/ /_  / _  / / /_/ / / /_/ / / /_/ / /__ / /_ / /_/ /  /
 /_.___/\__,_/ /_/  /_/  \__,_/  \__,_/  \____/\___/ \__/ \____//_/     
 ```
 Build, scan, and publish hardened artifacts at scale.
+## Notes
+- build container image
+- scan container image
+- sign container image
+- publish container image
+- record sbom entry
+- chain of responsibility that can be concurrently processed
