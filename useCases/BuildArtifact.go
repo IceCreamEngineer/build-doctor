@@ -11,5 +11,7 @@ type ArtifactBuilder struct {
 }
 
 func (b *ArtifactBuilder) BuildArtifact() entities.BuildResult {
-	return b.Builder.Build()
+	buildResult := b.Builder.Build()
+	b.Presenter.Present("Build failed with error:\n" + buildResult.Error.Error())
+	return buildResult
 }
